@@ -2,6 +2,7 @@
 
 namespace MoviePortalBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -20,10 +21,21 @@ class Genre
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
+    /**
+     * @var string
+     * @ORM\Column(name="name", type="string", length=20)
+     */
     private $name;
-
+    /**
+     * @var Movie
+     * @ORM\ManyToMany(targetEntity="MoviePortalBundle\Entity\Movie", inversedBy="genre")
+     */
     private $movies;
+
+    public function __construct()
+    {
+        $this->movies = new ArrayCollection();
+    }
 
 
     /**
@@ -34,6 +46,22 @@ class Genre
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
     }
 }
 

@@ -2,6 +2,7 @@
 
 namespace MoviePortalBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -51,6 +52,13 @@ class Actor
      * @ORM\ManyToMany(targetEntity="MoviePortalBundle\Entity\Movie", mappedBy="actors")
      */
     private $movies;
+
+    public function __construct()
+    {
+        $this->movies = new ArrayCollection();
+    }
+
+    //TODO seter and geter for movies
 
 
     /**

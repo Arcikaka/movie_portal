@@ -2,6 +2,7 @@
 
 namespace MoviePortalBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Movie
 {
+    //TODO array Collection seters and geters
     /**
      * @var int
      *
@@ -30,13 +32,14 @@ class Movie
 
     /**
      * @var Director
+     * @ORM\ManyToMany(targetEntity="MoviePortalBundle\Entity\Director", mappedBy="movies")
      *
      */
     private $director;
 
     /**
      * @var Writers
-     *
+     * @ORM\ManyToMany(targetEntity="MoviePortalBundle\Entity\Writers", mappedBy="movies")
      */
     private $writers;
 
@@ -49,6 +52,7 @@ class Movie
 
     /**
      * @var Genre
+     * @ORM\ManyToMany(targetEntity="MoviePortalBundle\Entity\Genre", mappedBy="movies")
      *
      */
     private $genre;
@@ -62,6 +66,7 @@ class Movie
 
     /**
      * @var Rating
+     * @ORM\ManyToMany(targetEntity="MoviePortalBundle\Entity\Rating", mappedBy="movie")
      *
      */
     private $rating;
@@ -79,6 +84,20 @@ class Movie
      * @ORM\Column(name="boxOffice", type="integer")
      */
     private $boxOffice;
+    /**
+     * @var string
+     * @ORM\Column(name="poster", type="string")
+     */
+    private $poster;
+
+    public function __construct()
+    {
+        $this->director = new ArrayCollection();
+        $this->writers = new ArrayCollection();
+        $this->rating = new ArrayCollection();
+        $this->genre = new ArrayCollection();
+        $this->actors = new ArrayCollection();
+    }
 
 
     /**
@@ -209,6 +228,17 @@ class Movie
     public function getBoxOffice()
     {
         return $this->boxOffice;
+    }
+
+    public function getPoster()
+    {
+        return $this->poster;
+    }
+
+    public function setPoster($poster)
+    {
+        $this->poster = $poster;
+        return $this;
     }
 }
 

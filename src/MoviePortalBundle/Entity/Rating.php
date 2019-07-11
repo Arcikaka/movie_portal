@@ -2,6 +2,7 @@
 
 namespace MoviePortalBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -20,10 +21,18 @@ class Rating
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
+    //TODO onetoone relation
     private $user;
-
+    /**
+     * @var Movie
+     * @ORM\ManyToMany(targetEntity="MoviePortalBundle\Entity\Movie", inversedBy="rating")
+     */
     private $movie;
+
+    public function __construct()
+    {
+        $this->movie = new ArrayCollection();
+    }
 
 
     /**
