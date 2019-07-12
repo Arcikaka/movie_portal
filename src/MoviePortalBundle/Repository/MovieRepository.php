@@ -10,4 +10,11 @@ namespace MoviePortalBundle\Repository;
  */
 class MovieRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function searchMovieDatabase($string)
+    {
+        $query = $this->getEntityManager()->createQuery("SELECT m FROM MoviePortalBundle:Movie m WHERE m.title LIKE :string 
+        OR m.director LIKE :string OR m.writers LIKE :string OR m.actor LIKE :string OR m.genre LIKE :string");
+        $query->setParameter('string',$string);
+        return $query->getResult();
+    }
 }

@@ -3,6 +3,7 @@
 namespace MoviePortalBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -62,6 +63,26 @@ class Genre
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+
+    public function addMovies(Movie $movie)
+    {
+        if(!$this->movies->contains($movie)) {
+            $this->movies->add($movie);
+        }
+    }
+
+    public function removeMovies(Movie $movie)
+    {
+        if($this->movies->contains($movie)) {
+            $this->movies->removeElement($movie);
+        }
+    }
+
+    public function getMovies() : Collection
+    {
+        return $this->movies;
     }
 }
 

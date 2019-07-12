@@ -2,6 +2,8 @@
 
 namespace MoviePortalBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -41,6 +43,11 @@ class Director
      * @ORM\ManyToMany(targetEntity="MoviePortalBundle\Entity\Movie", inversedBy="director")
      */
     private $movies;
+
+    public function __construct()
+    {
+        $this->movies = new ArrayCollection();
+    }
 
 
     /**
@@ -99,6 +106,25 @@ class Director
     public function setDateOfBirth($dateOfBirth)
     {
         $this->dateOfBirth = $dateOfBirth;
+    }
+
+    public function addMovies(Movie $movie)
+    {
+        if(!$this->movies->contains($movie)) {
+            $this->movies->add($movie);
+        }
+    }
+
+    public function removeMovies(Movie $movie)
+    {
+        if($this->movies->contains($movie)) {
+            $this->movies->removeElement($movie);
+        }
+    }
+
+    public function getMovies() : Collection
+    {
+        return $this->movies;
     }
 }
 

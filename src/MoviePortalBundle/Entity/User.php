@@ -20,11 +20,17 @@ class User extends BaseUser
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     public function __construct()
     {
         parent::__construct();
     }
+
+    /**
+     * @var Rating
+     * @ORM\OneToMany(targetEntity="MoviePortalBundle\Entity\Rating", mappedBy="user")
+     */
+    protected $movieRating;
 }
 

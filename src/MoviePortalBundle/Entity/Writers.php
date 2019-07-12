@@ -3,6 +3,7 @@
 namespace MoviePortalBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,7 +37,7 @@ class Writers
      * @ORM\ManyToMany(targetEntity="MoviePortalBundle\Entity\Movie", inversedBy="writers")
      */
     private $movies;
-    //todo seter and geter for movies
+
 
     public function __construct()
     {
@@ -84,6 +85,25 @@ class Writers
     public function setSurname($surname)
     {
         $this->surname = $surname;
+    }
+
+    public function addMovies(Movie $movie)
+    {
+        if (!$this->movies->contains($movie)) {
+            $this->movies->add($movie);
+        }
+    }
+
+    public function removeMovies(Movie $movie)
+    {
+        if ($this->movies->contains($movie)) {
+            $this->movies->removeElement($movie);
+        }
+    }
+
+    public function getMovies() : Collection
+    {
+        return $this->movies;
     }
 }
 

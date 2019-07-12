@@ -3,12 +3,14 @@
 namespace MoviePortalBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Actor
  *
- * @ORM\Table(name="cast")
+ * @ORM\Table(name="actor")
  * @ORM\Entity(repositoryClass="MoviePortalBundle\Repository\CastRepository")
  */
 class Actor
@@ -24,11 +26,13 @@ class Actor
     /**
      * @var string
      * @ORM\Column(name="name", type="string", length=50)
+     *
      */
     private $name;
     /**
      * @var string
      * @ORM\Column(name="surname", type="string", length=50)
+     *
      */
     private $surname;
     /**
@@ -39,6 +43,7 @@ class Actor
     /**
      * @var string
      * @ORM\Column(name="place_of_birth", type="string", length=100)
+     * @Assert\Date()
      */
     private $placeOfBirth;
     /**
@@ -57,8 +62,6 @@ class Actor
     {
         $this->movies = new ArrayCollection();
     }
-
-    //TODO seter and geter for movies
 
 
     /**
@@ -149,6 +152,26 @@ class Actor
     public function setHeight($height)
     {
         $this->height = $height;
+    }
+
+
+    public function addMovies(Movie $movie)
+    {
+        if(!$this->movies->contains($movie)) {
+            $this->movies->add($movie);
+        }
+    }
+
+    public function removeMovies(Movie $movie)
+    {
+        if($this->movies->contains($movie)) {
+            $this->movies->removeElement($movie);
+        }
+    }
+
+    public function getMovies() : Collection
+    {
+        return $this->movies;
     }
 }
 

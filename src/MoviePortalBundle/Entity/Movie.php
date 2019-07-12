@@ -3,6 +3,7 @@
 namespace MoviePortalBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -13,7 +14,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Movie
 {
-    //TODO array Collection seters and geters
     /**
      * @var int
      *
@@ -66,7 +66,7 @@ class Movie
 
     /**
      * @var Rating
-     * @ORM\ManyToMany(targetEntity="MoviePortalBundle\Entity\Rating", mappedBy="movie")
+     * @ORM\ManyToMany(targetEntity="MoviePortalBundle\Entity\Rating", mappedBy="movies")
      *
      */
     private $rating;
@@ -158,29 +158,6 @@ class Movie
         return $this->releaseDate;
     }
 
-    /**
-     * Set rating
-     *
-     * @param string $rating
-     *
-     * @return Movie
-     */
-    public function setRating($rating)
-    {
-        $this->rating = $rating;
-
-        return $this;
-    }
-
-    /**
-     * Get rating
-     *
-     * @return string
-     */
-    public function getRating()
-    {
-        return $this->rating;
-    }
 
     /**
      * Set length
@@ -239,6 +216,101 @@ class Movie
     {
         $this->poster = $poster;
         return $this;
+    }
+
+    public function addDirectors(Director $director)
+    {
+        if (!$this->director->contains($director)) {
+            $this->director->add($director);
+        }
+    }
+
+    public function removeDirectors(Director $director)
+    {
+        if ($this->director->contains($director)) {
+            $this->director->removeElement($director);
+        }
+    }
+
+    public function getDirectors(): Collection
+    {
+        return $this->director;
+    }
+
+    public function addWriters(Writers $writers)
+    {
+        if (!$this->writers->contains($writers)) {
+            $this->writers->add($writers);
+        }
+    }
+
+    public function removeWriters(Writers $writers)
+    {
+        if ($this->writers->contains($writers)) {
+            $this->writers->removeElement($writers);
+        }
+    }
+
+    public function getWriters(): Collection
+    {
+        return $this->writers;
+    }
+
+    public function addActors(Actor $actor)
+    {
+        if (!$this->actors->contains($actor)) {
+            $this->actors->add($actor);
+        }
+    }
+
+    public function removeActors(Actor $actor)
+    {
+        if ($this->actors->contains($actor)) {
+            $this->actors->removeElement($actor);
+        }
+    }
+
+    public function getActors(): ArrayCollection
+    {
+        return $this->actors;
+    }
+
+    public function addGenre(Genre $genre)
+    {
+        if (!$this->genre->contains($genre)) {
+            $this->genre->add($genre);
+        }
+    }
+
+    public function removeGenre(Genre $genre)
+    {
+        if ($this->genre->contains($genre)) {
+            $this->genre->removeElement($genre);
+        }
+    }
+
+    public function getGenre(): Collection
+    {
+        return $this->genre;
+    }
+
+    public function addRating(Rating $rating)
+    {
+        if (!$this->rating->contains($rating)) {
+            $this->rating->add($rating);
+        }
+    }
+
+    public function removeRating(Rating $rating)
+    {
+        if ($this->rating->contains($rating)) {
+            $this->rating->removeElement($rating);
+        }
+    }
+
+    public function getRating() : Collection
+    {
+        return $this->rating;
     }
 }
 
