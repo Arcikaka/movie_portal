@@ -1,0 +1,14 @@
+{% extends '@MoviePortal/baseAdmin.html.twig' %}
+{% block content %}
+    <div>
+        <h3><a href="{{ path('new_category') }}">Click here to add new Category</a></h3>
+    </div>
+    <div> Click on Category to delete. Be careful! You can't revert changes!
+        <ol>
+
+            {% for category in categories %}
+                <li><a href="{{ path('delete_category', {'id' : category.id}) }}">{{ category.name }}</a><br></li>
+            {% endfor %}
+        </ol>
+    </div>
+{% endblock %}

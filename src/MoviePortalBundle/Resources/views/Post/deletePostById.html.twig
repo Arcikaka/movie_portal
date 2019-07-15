@@ -1,0 +1,10 @@
+{% extends '@MoviePortal/baseAdmin.html.twig' %}
+{% block content %}
+<p>Do you want to delete your post?</p>
+<form action="{{ path('show_posts_admin') }}" method="get">
+    <input type="submit" name="no" value="No" class="myButton">
+</form>
+<form action="" method="post">
+    <input type="submit" name="yes" value="Yes" class="myButton">
+</form>
+{% endblock %}

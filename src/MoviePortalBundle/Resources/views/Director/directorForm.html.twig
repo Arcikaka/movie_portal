@@ -1,0 +1,15 @@
+{% extends '@MoviePortal/Director/showAllDirectors.html.twig' %}
+{% block content %}
+{{ form_start(form) }}
+{{ form_label(form.name) }}
+{{ form_widget(form.name) }}
+<br>
+{{ form_label(form.surname) }}
+{{ form_widget(form.surname) }}
+<br>
+{{ form_label(form.dateOfBirth) }}
+{{ form_widget(form.dateOfBirth) }}
+<br>
+{{ form_widget(form.save) }}
+{{ form_end(form) }}
+{% endblock %}

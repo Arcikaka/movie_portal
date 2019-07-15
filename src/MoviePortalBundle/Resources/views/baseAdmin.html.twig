@@ -5,17 +5,18 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Movie Portal</title>
+    <title>Movie Portal - Admin Page</title>
 </head>
+{% include '@MoviePortal/style.html.twig' %}
 <body>
 {% block menu %}
-    <ul>
-        <li><a href="" class="active">Home</a></li>
-        <li><a href="">Post Edit</a></li>
-        <li><a href="">Category</a></li>
-    </ul>
-{% endblock %}
-{% block searchbar %}
+    <div>
+        <ul>
+            <li><a href="{{ path('show_posts_admin') }}" class="active">All Post</a></li>
+            <li><a href="{{ path('show_all_categories') }}">Category</a></li>
+            <li><a href="{{ path('show_all_directors') }}">Movie Base</a></li>
+        </ul>
+    </div>
 {% endblock %}
 {% block content %}
 {% endblock %}

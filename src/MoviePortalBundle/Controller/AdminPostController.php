@@ -4,7 +4,9 @@ namespace MoviePortalBundle\Controller;
 
 use MoviePortalBundle\Entity\Post;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -28,7 +30,7 @@ class AdminPostController extends Controller
     /**
      * @Route("/create/", methods={"POST"}, name="create_post")
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return RedirectResponse
      */
     public function createPostAction(Request $request)
     {
@@ -50,7 +52,7 @@ class AdminPostController extends Controller
     /**
      * @param $id
      * @Route("/modify/{id}/", methods={"GET"}, name="modify_post")
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function modifyPostAction($id)
     {
@@ -60,14 +62,14 @@ class AdminPostController extends Controller
 
         $form = $this->createForm('MoviePortalBundle\Form\PostFormType', $post);
 
-        return $this->render('@MoviePortal/Post/PostForm.html.twig', ['form' => $form]);
+        return $this->render('@MoviePortal/Post/PostForm.html.twig', ['form' => $form->createView(), 'post' => $post]);
     }
 
     /**
      * @param Request $request
      * @param $id
      * @Route("/modify/{id}/", methods={"POST"}, name="save_modify_post")
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function saveModifyPostAction(Request $request, $id)
     {
@@ -84,5 +86,54 @@ class AdminPostController extends Controller
             return $this->render('', ['post' => $post]);
         }
         return $this->render('MoviePortalBundle:Post:PostForm.html.twig', ['form' => $form]);
+    }
+
+    /**
+     * @return Response
+     * @Route("/", name="show_posts_admin")
+     */
+    public function showAllPostsAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repo = $em->getRepository('MoviePortalBundle:Post');
+
+        $posts = $repo->findAll();
+
+        return $this->render('@MoviePortal/Post/showAllPostAdmin.html.twig', ['posts' => $posts]);
+    }
+
+    /**
+     * @param $id
+     * @return Response
+     * @Route("/delete/{id}/", methods={"GET"}, name="delete_post_id_question")
+     */
+    public function deletePostAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repo = $em->getRepository('MoviePortalBundle:Post');
+        $post = $repo->find($id);
+
+        return $this->render('@MoviePortal/Post/deletePostById.html.twig', ['post' => $post]);
+    }
+
+    /**
+     * @param $id
+     * @return Response
+     * @Route("/delete/{id}/", name="delete_post_admin_confirmed", methods={"POST"})
+     */
+    public function deletePostConfirmedAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repo = $em->getRepository('MoviePortalBundle:Post');
+        $post = $repo->find($id);
+
+        $em->remove($post);
+        $em->flush();
+
+        $posts = $repo->findAll();
+
+        return $this->render('@MoviePortal/Post/showAllPostAdmin.html.twig',['posts' => $posts]);
+
+
     }
 }

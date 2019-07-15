@@ -1,8 +1,8 @@
 {% extends '@MoviePortal/base.html.twig' %}
 {% block content %}
     {% for post in posts %}
-        {{ post.name }} <br>
-        {{ post.contentHtml }} <br>
-        {{ post.category.name }} <br>
+        <div align="center"><b> {{ post.name }}</b></div></br>
+        <div align="center">{{ post.contentHtml }}</div>
+        <div align="center"><i> {{ post.category.name }}</i></div></br>
     {% endfor %}
 {% endblock %}
