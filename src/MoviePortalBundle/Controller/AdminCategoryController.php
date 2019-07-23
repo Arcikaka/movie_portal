@@ -12,9 +12,9 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Class CategoryController
  * @package MoviePortalBundle\Controller
- * @Route("/category")
+ * @Route("/admin/category")
  */
-class CategoryController extends Controller
+class AdminCategoryController extends Controller
 {
     /**
      * @Route("/new/", name="new_category", methods={"GET"})

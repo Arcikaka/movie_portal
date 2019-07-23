@@ -62,7 +62,7 @@ class AdminPostController extends Controller
 
         $form = $this->createForm('MoviePortalBundle\Form\PostFormType', $post);
 
-        return $this->render('@MoviePortal/Post/PostForm.html.twig', ['form' => $form->createView(), 'post' => $post]);
+        return $this->render('@MoviePortal/Post/modifyPost.html.twig', ['form' => $form->createView(), 'post' => $post]);
     }
 
     /**
@@ -85,7 +85,7 @@ class AdminPostController extends Controller
 
             return $this->render('', ['post' => $post]);
         }
-        return $this->render('MoviePortalBundle:Post:PostForm.html.twig', ['form' => $form]);
+        return $this->render('@MoviePortal/Post/modifyPost.html.twig', ['form' => $form]);
     }
 
     /**

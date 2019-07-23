@@ -2,6 +2,7 @@
 # https://symfony.com/doc/current/service_container.html
 parameters:
     #parameter_name: value
+    posters_directory: '%kernel.project_dir%/web/uploads/poster'
 
 services:
     # default configuration for services in *this* file
@@ -33,3 +34,7 @@ services:
     # MoviePortalBundle\Service\ExampleService:
     #     arguments:
     #         $someArgument: 'some_value'
+    MoviePortalBundle\Service\FileUploader:
+        public: true
+        arguments:
+            $targetDirectory: '%posters_directory%'

@@ -12,9 +12,9 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Class DirectorController
  * @package MoviePortalBundle\Controller
- * @Route("/director")
+ * @Route("/admin/director")
  */
-class DirectorController extends Controller
+class AdminDirectorController extends Controller
 {
     /**
      * @return Response

@@ -1,0 +1,5 @@
+{% include '@MoviePortal/Genre/genreForm.html.twig' %}
+<p>If you want to delete Genre, please click below</p>
+<form action="{{ path('delete_genre_form', {'id' : genre.id}) }}">
+    <input type="submit" name="Delete" value="Delete">
+</form>

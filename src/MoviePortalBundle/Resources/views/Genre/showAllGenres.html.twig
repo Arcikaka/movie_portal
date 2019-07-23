@@ -1,0 +1,14 @@
+{% extends '@MoviePortal/baseAdmin.html.twig' %}
+{% block menu %}
+    {{ parent() }}
+{% include'@MoviePortal/movieMenuAdmin.html.twig' %}
+{% endblock %}
+{% block content %}
+    <a href="{{ path('new_genre_form') }}">Click here to add new Genre</a><br>
+{% include '@MoviePortal/Genre/genreSearchBar.html.twig' %}
+{% for genre in genres %}
+<div>
+    <a href="{{ path('modify_genre_form', {'id' : genre.id}) }}">{{ genre.name }} - Click to modify</a><br>
+</div>
+{% endfor %}
+{% endblock %}

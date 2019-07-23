@@ -1,0 +1,5 @@
+{% include '@MoviePortal/Writers/WritersForm.html.twig' %}
+<p>If you want to delete Writer, please click below</p>
+<form action="{{ path('delete_writers_form', {'id' : writers.id}) }}">
+    <input type="submit" name="Delete" value="Delete">
+</form>

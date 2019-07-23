@@ -1,0 +1,12 @@
+{% extends '@MoviePortal/Writers/showAllWriters.html.twig' %}
+{% block content %}
+{{ form_start(form) }}
+{{ form_label(form.name) }}
+{{ form_widget(form.name) }}
+<br>
+{{ form_label(form.surname) }}
+{{ form_widget(form.surname) }}
+<br>
+{{ form_widget(form.save) }}
+{{ form_end(form) }}
+{% endblock %}

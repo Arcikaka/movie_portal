@@ -218,21 +218,21 @@ class Movie
         return $this;
     }
 
-    public function addDirectors(Director $director)
+    public function addDirector(Director $director)
     {
         if (!$this->director->contains($director)) {
             $this->director->add($director);
         }
     }
 
-    public function removeDirectors(Director $director)
+    public function removeDirector(Director $director)
     {
         if ($this->director->contains($director)) {
             $this->director->removeElement($director);
         }
     }
 
-    public function getDirectors(): Collection
+    public function getDirector(): Collection
     {
         return $this->director;
     }
@@ -270,7 +270,7 @@ class Movie
         }
     }
 
-    public function getActors(): ArrayCollection
+    public function getActors(): Collection
     {
         return $this->actors;
     }

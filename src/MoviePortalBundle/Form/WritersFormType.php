@@ -19,7 +19,7 @@ class WritersFormType extends AbstractType
             ->setMethod('POST')
             ->add('name', TextType::class, ['label' => 'Name', 'trim' => true])
             ->add('surname', TextType::class, ['label' => 'Surname', 'trim' => true])
-            ->add('save', SubmitType::class, ['label' => 'Save Director']);
+            ->add('save', SubmitType::class, ['label' => 'Save Writer']);
 
     }
 

@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Actor
  *
  * @ORM\Table(name="actor")
- * @ORM\Entity(repositoryClass="MoviePortalBundle\Repository\CastRepository")
+ * @ORM\Entity(repositoryClass="MoviePortalBundle\Repository\ActorRepository")
  */
 class Actor
 {
@@ -43,7 +43,6 @@ class Actor
     /**
      * @var string
      * @ORM\Column(name="place_of_birth", type="string", length=100)
-     * @Assert\Date()
      */
     private $placeOfBirth;
     /**
@@ -54,7 +53,7 @@ class Actor
 
     /**
      * @var Movie
-     * @ORM\ManyToMany(targetEntity="MoviePortalBundle\Entity\Movie", mappedBy="actors")
+     * @ORM\ManyToMany(targetEntity="MoviePortalBundle\Entity\Movie", inversedBy="actors")
      */
     private $movies;
 

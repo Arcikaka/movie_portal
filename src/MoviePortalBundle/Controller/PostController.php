@@ -3,6 +3,7 @@
 namespace MoviePortalBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -15,7 +16,7 @@ class PostController extends Controller
     /**
      * @param $id
      * @Route("/post/{id}/", name="post_by_id", methods={"GET"})
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function showPostByIdAction($id)
     {
@@ -27,7 +28,7 @@ class PostController extends Controller
     }
 
     /**
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      * @Route("/", methods={"GET"})
      */
     public function showAllPostMainAction()
@@ -43,7 +44,7 @@ class PostController extends Controller
     /**
      * @Route("/{offset}/", name="show_all", methods={"GET"}, requirements={"offset" = "\d+"})
      * @param $offset
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function showAllPostAction($offset)
     {

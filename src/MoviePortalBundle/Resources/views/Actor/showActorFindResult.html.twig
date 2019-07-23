@@ -1,0 +1,8 @@
+{% extends '@MoviePortal/baseAdmin.html.twig' %}
+{% include'@MoviePortal/movieMenuAdmin.html.twig' %}
+{% include '@MoviePortal/Actor/actorSearchBar.html.twig' %}
+{% for actor in actors %}
+    <div>
+        <a href="{{ path('modify_actor_form', {'id' : actor.id}) }}">{{ actor.name }} {{ actor.surname }} - Click to modify</a><br>
+    </div>
+{% endfor %}

@@ -1,0 +1,21 @@
+{% extends '@MoviePortal/Actor/showAllActors.html.twig' %}
+{% block content %}
+    {{ form_start(form, {'methods' : 'POST'}) }}
+    {{ form_label(form.name) }}
+    {{ form_widget(form.name) }}
+    <br>
+    {{ form_label(form.surname) }}
+    {{ form_widget(form.surname) }}
+    <br>
+    {{ form_label(form.dateOfBirth) }}
+    {{ form_widget(form.dateOfBirth) }}
+    <br>
+    {{ form_label(form.placeOfBirth) }}
+    {{ form_widget(form.placeOfBirth) }}
+    <br>
+    {{ form_label(form.height) }}
+    {{ form_widget(form.height) }}
+    <br>
+    {{ form_widget(form.save) }}
+    {{ form_end(form) }}
+{% endblock %}

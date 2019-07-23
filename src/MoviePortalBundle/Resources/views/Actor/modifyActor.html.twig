@@ -1,0 +1,5 @@
+{% include '@MoviePortal/Actor/actorForm.html.twig' %}
+<p>If you want to delete Actor, please click below</p>
+<form action="{{ path('delete_actor_form', {'id' : actor.id}) }}">
+    <input type="submit" name="Delete" value="Delete">
+</form>

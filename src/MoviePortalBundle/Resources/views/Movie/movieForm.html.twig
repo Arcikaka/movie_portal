@@ -1,0 +1,33 @@
+{% extends '@MoviePortal/Movie/showAllMovies.html.twig' %}
+{% block content %}
+    {{ form_start(form) }}
+    {{ form_label(form.title) }}
+    {{ form_widget(form.title) }}
+    <br>
+    {{ form_label(form.director) }}
+    {{ form_widget(form.director) }}
+    <br>
+    {{ form_label(form.writers) }}
+    {{ form_widget(form.writers) }}
+    <br>
+    {{ form_label(form.actors) }}
+    {{ form_widget(form.actors) }}
+    <br>
+    {{ form_label(form.genre) }}
+    {{ form_widget(form.genre) }}
+    <br>
+    {{ form_label(form.releaseDate) }}
+    {{ form_widget(form.releaseDate) }}
+    <br>
+    {{ form_label(form.length) }}
+    {{ form_widget(form.length) }}
+    <br>
+    {{ form_label(form.boxOffice) }}
+    {{ form_widget(form.boxOffice) }}
+    <br>
+    {{ form_label(form.poster) }}
+    {{ form_widget(form.poster) }}
+    <br>
+    {{ form_widget(form.save) }}
+    {{ form_end(form) }}
+{% endblock %}
