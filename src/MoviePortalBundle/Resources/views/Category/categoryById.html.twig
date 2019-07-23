@@ -1,0 +1,12 @@
+{% extends '@MoviePortal/base.html.twig' %}
+{% block content %}
+    <div>
+        <h3> Category : {{ category.name }}</h3>
+    </div>
+    <div>
+        Posts:
+        {% for post in category.post %}
+            <a href="{{ path('post_by_id', {'id' : post.id }) }}"> {{ post.name }}</a>
+        {% endfor %}
+    </div>
+{% endblock %}

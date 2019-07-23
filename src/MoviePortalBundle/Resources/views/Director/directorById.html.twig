@@ -1,0 +1,14 @@
+{% extends '@MoviePortal/base.html.twig' %}
+{% block content %}
+<div>
+    <h3> {{ director.name }} {{ director.surname }}</h3>
+</div>
+<div>
+    Date of Birth : {{ director.dateOfBirth|date("m/d/Y") }}
+</div>
+<div>
+    {% for movie in director.movies %}
+    <a href="">{{ movie.title }}</a>
+    {% endfor %}
+</div>
+{% endblock %}

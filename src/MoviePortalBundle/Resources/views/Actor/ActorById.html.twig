@@ -1,0 +1,20 @@
+{% extends '@MoviePortal/base.html.twig' %}
+{% block content %}
+    <div>
+        <h3>{{ actor.name }} {{ actor.surname }}</h3>
+    </div>
+    <div>
+        Date of Birth : {{ actor.dateOfBirth|date("m/d/Y") }}
+    </div>
+    <div>
+        Place of Birth : {{ actor.placeOfBirth }}
+    </div>
+    <div>
+        Height : {{ actor.height }} cm
+    </div>
+    <div>
+        {% for movies in actor.movies %}
+            <a href="">{{ movie.title }}</a>
+        {% endfor %}
+    </div>
+{% endblock %}

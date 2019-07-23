@@ -1,0 +1,12 @@
+{% extends '@MoviePortal/base.html.twig' %}
+{% block content %}
+<div>
+    <h3>{{ writer.name }} {{ writer.surname }}</h3>
+</div>
+<div>
+    Movies:
+    {% for movie in writer.movies %}
+    <a href="">{{ movie.title }}</a>
+    {% endfor %}
+</div>
+{% endblock %}
