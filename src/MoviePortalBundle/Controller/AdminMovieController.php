@@ -2,6 +2,10 @@
 
 namespace MoviePortalBundle\Controller;
 
+use MoviePortalBundle\Entity\Actor;
+use MoviePortalBundle\Entity\Director;
+use MoviePortalBundle\Entity\Genre;
+use MoviePortalBundle\Entity\Writers;
 use MoviePortalBundle\Service\FileUploader;
 use MoviePortalBundle\Entity\Movie;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -51,6 +55,24 @@ class AdminMovieController extends Controller
                 $posterFileName = $fileUploader->upload($posterFile);
                 $movie->setPoster($posterFileName);
             }
+            /**
+             * @var Director $director
+             */
+            foreach ($movie->getDirector() as $director) {
+                $director->addMovies($movie);
+            }
+            /** @var Writers $writer */
+            foreach ($movie->getWriters() as $writer) {
+                $writer->addMovies($movie);
+            }
+            /** @var Actor $actor */
+            foreach ($movie->getActors() as $actor) {
+                $actor->addMovies($movie);
+            }
+            /** @var Genre $genre */
+            foreach ($movie->getGenre() as $genre) {
+                $genre->addMovies($movie);
+            }
             $em = $this->getDoctrine()->getManager();
             $em->persist($movie);
             $em->flush();
@@ -81,11 +103,12 @@ class AdminMovieController extends Controller
 
     /**
      * @param Request $request
+     * @param FileUploader $fileUploader
      * @param $id
-     * @Route("/modify/{id}/", name="modify_movie", methods={"POST"})
      * @return RedirectResponse
+     * @Route("/modify/{id}/", name="modify_movie", methods={"POST"})
      */
-    public function modifyMovieSaveAction(Request $request, $id)
+    public function modifyMovieSaveAction(Request $request, FileUploader $fileUploader, $id)
     {
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository('MoviePortalBundle:Movie');
@@ -96,12 +119,36 @@ class AdminMovieController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile $posterFile */
+            $posterFile = $form['poster']->getData();
+            if ($posterFile) {
+                $posterFileName = $fileUploader->upload($posterFile);
+                $movie->setPoster($posterFileName);
+            }
+            /**
+             * @var Director $director
+             */
+            foreach ($movie->getDirector() as $director) {
+                $director->addMovies($movie);
+            }
+            /** @var Writers $writer */
+            foreach ($movie->getWriters() as $writer) {
+                $writer->addMovies($movie);
+            }
+            /** @var Actor $actor */
+            foreach ($movie->getActors() as $actor) {
+                $actor->addMovies($movie);
+            }
+            /** @var Genre $genre */
+            foreach ($movie->getGenre() as $genre) {
+                $genre->addMovies($movie);
+            }
             $em->flush();
 
             return $this->redirectToRoute('show_all_movies');
         }
 
-        return $this->redirectToRoute('modify_movie_form');
+        return $this->redirectToRoute('modify_movie_form', ['id' => $id]);
     }
 
     /**
@@ -130,7 +177,7 @@ class AdminMovieController extends Controller
         $repo = $this->getDoctrine()->getManager()->getRepository('MoviePortalBundle:Movie');
         $movies = $repo->findAll();
 
-        return $this->render('@MoviePortal/Movie/showAllMovies.html.twig', ['movies' => $movies]);
+        return $this->render('@MoviePortal/Movie/showAllMoviesAdmin.html.twig', ['movies' => $movies]);
 
     }
 
@@ -145,6 +192,6 @@ class AdminMovieController extends Controller
         $string = $request->get('string');
         $movies = $repo->searchMovieDatabase($string);
 
-        return $this->render('@MoviePortal/Movie/showAllMovies.html.twig', ['movies' => $movies]);
+        return $this->render('@MoviePortal/Movie/showAllMoviesAdmin.html.twig', ['movies' => $movies]);
     }
 }

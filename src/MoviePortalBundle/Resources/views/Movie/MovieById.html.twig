@@ -1,33 +1,43 @@
 {% extends '@MoviePortal/base.html.twig' %}
 {% block content %}
-<div>
-    Poster : <img src="{{ asset('uploads/poster/' ~ movie.poster) }}" width="300" height="500">
-</div>
-<div>
-    <h3>{{ movie.title }}</h3>
-</div>
-<div>
-    Release date : {{ movie.releaseDate|date("m/d/Y") }}
-</div>
-<div>
-    Length : {{ movie.length }} min
-</div>
-<div>
-    Box Office : {{ movie.boxOffice }} mln USD
-</div>
-<div>
-    {% for director in movie.director %}
-    <a href="{{ path('director_by_id', {'id' : director.id}) }}">{{ director.name }} {{ director.surname }}</a>
-    {% endfor %}
-</div>
-<div>
-    {% for writer in movie.writers %}
-    <a href="{{ path('writer_by_id', {'id' : writer.id}) }}">{{ writer.name }} {{ writer.surname }}</a>
-    {% endfor %}
-</div>
-<div>
-    {% for  actor in movie.actors %}
-    <a href="{{ path('actor_by_id', {'id' : actor.id}) }}">{{ actor.name }} {{ actor.surname }}</a>
-    {% endfor %}
-</div>
+    <div>
+        Poster : <img src="{{ asset('uploads/poster/' ~ movie.poster) }}" width="300" height="500">
+    </div>
+    <div>
+        <h3>{{ movie.title }}</h3>
+    </div>
+    <div>
+        Rating : {% for rating in movie.rating %}
+        {{ movie.rating }} <br>
+        {% endfor %}
+        <a href="{{ path('new_rating_form', {'movieId' : movie.id, 'userId' : app.user.id}) }}">Rate this movie!</a><br>
+    </div>
+    <div>
+        Release date : {{ movie.releaseDate|date("m/d/Y") }}
+    </div>
+    <div>
+        Length : {{ movie.length }} min
+    </div>
+    <div>
+        Box Office : {{ movie.boxOffice }} mln USD
+    </div>
+    <div>
+        Director : <br>
+        {% for director in movie.director %}
+            <a href="{{ path('director_by_id', {'id' : director.id}) }}">{{ director.name }} {{ director.surname }}</a>
+            <br>
+        {% endfor %}
+    </div>
+    <div>
+        Writer: <br>
+        {% for writer in movie.writers %}
+            <a href="{{ path('writer_by_id', {'id' : writer.id}) }}">{{ writer.name }} {{ writer.surname }}</a><br>
+        {% endfor %}
+    </div>
+    <div>
+        Actor: <br>
+        {% for  actor in movie.actors %}
+            <a href="{{ path('actor_by_id', {'id' : actor.id}) }}">{{ actor.name }} {{ actor.surname }}</a><br>
+        {% endfor %}
+    </div>
 {% endblock %}

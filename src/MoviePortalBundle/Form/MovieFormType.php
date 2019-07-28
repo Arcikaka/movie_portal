@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class MovieFormType extends AbstractType
 {
@@ -27,7 +28,15 @@ class MovieFormType extends AbstractType
             ->add('releaseDate', DateType::class, ['label' => 'Release Date'])
             ->add('length', IntegerType::class, ['label' => 'Length'])
             ->add('boxOffice', IntegerType::class, ['label' => 'Box Office'])
-            ->add('poster', FileType::class, ['label' => 'Poster PNG', 'mapped' => false, 'required' => false])
+            ->add('poster', FileType::class, ['label' => 'Poster PNG', 'mapped' => false, 'required' => false, 'constraints' => [
+                new File([
+                    'maxSize' => '4096k',
+                    'mimeTypes' => [
+                        'image/png',
+                        'image/jpeg',
+                    ],
+                    'mimeTypesMessage' => 'Please upload a valid png/jpg image',
+                ])]])
             ->add('save', SubmitType::class, ['label' => 'Save Movie']);
 
         //constraints' => ['maxSize' => '4096kb',

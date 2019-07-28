@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="rating")
  * @ORM\Entity(repositoryClass="MoviePortalBundle\Repository\RatingRepository")
- * @UniqueEntity(fields={"user","movies","rating"})
+ * @UniqueEntity(fields={"user","movies","score"})
  */
 class Rating
 {
@@ -64,19 +64,19 @@ class Rating
 
     public function addMovies(Movie $movie)
     {
-        if(!$this->movies->contains($movie)) {
+        if (!$this->movies->contains($movie)) {
             $this->movies->add($movie);
         }
     }
 
     public function removeMovies(Movie $movie)
     {
-        if($this->movies->contains($movie)) {
+        if ($this->movies->contains($movie)) {
             $this->movies->removeElement($movie);
         }
     }
 
-    public function getMovies() : Collection
+    public function getMovies(): Collection
     {
         return $this->movies;
     }
@@ -84,7 +84,7 @@ class Rating
     /**
      * @return int
      */
-    public function getScore(): int
+    public function getScore(): ?int
     {
         return $this->score;
     }
@@ -95,6 +95,25 @@ class Rating
     public function setScore(int $score): void
     {
         $this->score = $score;
+    }
+
+    public function addUser(User $user)
+    {
+        if (!$this->user->contains($user)) {
+            $this->user->add($user);
+        }
+    }
+
+    public function getUser(): Collection
+    {
+        return $this->user;
+    }
+
+    public function removeUser(User $user)
+    {
+        if ($this->user->contains($user)) {
+            $this->user->remove($user);
+        }
     }
 
 

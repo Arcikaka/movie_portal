@@ -3,6 +3,7 @@
 namespace MoviePortalBundle\Controller;
 
 use MoviePortalBundle\Entity\Genre;
+use MoviePortalBundle\Entity\Movie;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -104,7 +105,10 @@ public function deleteGenreAction($id)
     $em = $this->getDoctrine()->getManager();
     $repo = $em->getRepository('MoviePortalBundle:Genre');
     $genre = $repo->find($id);
-
+    /** @var Movie $movie */
+    foreach ($genre->getMovies() as $movie){
+        $movie->removeGenre($genre);
+    }
     $em->remove($genre);
     $em->flush();
 

@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Class AdminPostController
  * @package MoviePortalBundle\Controller
- * @\Symfony\Component\Routing\Annotation\Route("/admin", methods={"GET"})
+ * @Route("/admin", methods={"GET"})
  */
 class AdminPostController extends Controller
 {

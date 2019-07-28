@@ -29,7 +29,7 @@ class PostController extends Controller
 
     /**
      * @return Response
-     * @Route("/", methods={"GET"})
+     * @Route("/", methods={"GET"}, name="show_all_posts")
      */
     public function showAllPostMainAction()
     {
@@ -42,7 +42,7 @@ class PostController extends Controller
     }
 
     /**
-     * @Route("/{offset}/", name="show_all", methods={"GET"}, requirements={"offset" = "\d+"})
+     * @Route("/{offset}/", name="show_all_posts_offset", methods={"GET"}, requirements={"offset" = "\d+"})
      * @param $offset
      * @return Response
      */

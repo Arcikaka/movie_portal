@@ -2,6 +2,7 @@
 
 namespace MoviePortalBundle\Controller;
 
+use MoviePortalBundle\Entity\Movie;
 use MoviePortalBundle\Entity\Writers;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -99,12 +100,15 @@ class AdminWritersController extends Controller
      * @param $id
      * @return RedirectResponse
      */
-    public function deletewritersAction($id)
+    public function deleteWritersAction($id)
     {
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository('MoviePortalBundle:Writers');
         $writers = $repo->find($id);
-
+        /** @var Movie $movie */
+        foreach ($writers->getMovies() as $movie) {
+            $movie->removeWriters($writers);
+        }
         $em->remove($writers);
         $em->flush();
 

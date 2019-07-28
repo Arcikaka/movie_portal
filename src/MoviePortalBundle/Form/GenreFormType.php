@@ -18,7 +18,7 @@ class GenreFormType extends AbstractType
         $builder
             ->setMethod('POST')
             ->add('name', TextType::class, ['label' => 'Name', 'trim' => true])
-            ->add('save', SubmitType::class, ['label' => 'Save Director']);
+            ->add('save', SubmitType::class, ['label' => 'Save Genre']);
 
     }
 

@@ -3,6 +3,7 @@
 namespace MoviePortalBundle\Controller;
 
 use MoviePortalBundle\Entity\Actor;
+use MoviePortalBundle\Entity\Movie;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Class ActorController
  * @package MoviePortalBundle\Controller
- * @Route("/actor")
+ * @Route("/admin/actor")
  */
 class AdminActorController extends Controller
 {
@@ -110,7 +111,10 @@ function deleteActorAction($id)
     $em = $this->getDoctrine()->getManager();
     $repo = $em->getRepository('MoviePortalBundle:Actor');
     $actor = $repo->find($id);
-
+    /** @var Movie $movie */
+    foreach ($actor->getMovies() as $movie) {
+        $movie->removeActors($actor);
+    }
     $em->remove($actor);
     $em->flush();
 

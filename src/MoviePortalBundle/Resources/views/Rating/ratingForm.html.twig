@@ -1,0 +1,9 @@
+{% extends '@MoviePortal/base.html.twig' %}
+{% block searchbar %}
+{% endblock %}
+{% block content %}
+    {{ form_start(form) }}
+    {{ form_label(form.score) }}
+    {{ form_widget(form.score) }}
+    {{ form_end(form) }}
+{% endblock %}

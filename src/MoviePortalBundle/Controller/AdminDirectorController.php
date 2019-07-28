@@ -3,6 +3,7 @@
 namespace MoviePortalBundle\Controller;
 
 use MoviePortalBundle\Entity\Director;
+use MoviePortalBundle\Entity\Movie;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -104,7 +105,10 @@ class AdminDirectorController extends Controller
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository('MoviePortalBundle:Director');
         $director = $repo->find($id);
-
+        /** @var Movie $movie */
+        foreach ($director->getMovies() as $movie) {
+            $movie->removeDirector($director);
+        }
         $em->remove($director);
         $em->flush();
 

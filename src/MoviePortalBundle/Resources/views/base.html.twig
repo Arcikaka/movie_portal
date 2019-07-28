@@ -11,9 +11,9 @@
 <body>
 {% block menu %}
     <ul>
-        <li><a href="" class="active">Home</a></li>
-        <li><a href="">Posts</a></li>
-        <li><a href="">Movie Base</a></li>
+        <li><a href="{{ path('show_all_posts') }}" class="active">Home</a></li>
+        <li><a href="{{ path('show_all_posts_offset', {'offset' : 1}) }}">Posts</a></li>
+        <li><a href="{{ path('show_all_movies_anonymous') }}">Movie Base</a></li>
         {% if not app.user %}
         <li><a href="{{ path('fos_user_security_login') }}">Login</a></li>
         {% else %}
@@ -23,6 +23,7 @@
     </ul>
 {% endblock %}
 {% block searchbar %}
+    {% include '@MoviePortal/searchbar.html.twig' %}
 {% endblock %}
 {% block content %}
 {% endblock %}

@@ -6,7 +6,7 @@
 <div>
     Movies:
     {% for movie in genre.movies %}
-    <a href="">{{ movie.title }}</a>
+    <a href="{{ path('movie_by_id', {'id' : movie.id}) }}">{{ movie.title }}</a>
     {% endfor %}
 </div>
 {% endblock %}
