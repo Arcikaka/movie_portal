@@ -52,7 +52,7 @@ class RatingController extends Controller
         $repoUser = $em->getRepository('MoviePortalBundle:User');
         /** @var User $user */
         $user = $repoUser->find($userId);
-        $rating->addUser($user);
+        $rating->setUser($user);
 
         $repoMovie = $em->getRepository('MoviePortalBundle:Movie');
         /** @var Movie $movieToRate */
@@ -61,10 +61,6 @@ class RatingController extends Controller
         /** @var Movie $movie */
         foreach ($rating->getMovies() as $movie) {
             $movie->addRating($rating);
-        }
-        /** @var User $user */
-        foreach ($rating->getUser() as $user) {
-            $user->addMovieRating($rating);
         }
 
 

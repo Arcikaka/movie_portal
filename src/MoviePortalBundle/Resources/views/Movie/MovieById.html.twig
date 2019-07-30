@@ -7,9 +7,13 @@
         <h3>{{ movie.title }}</h3>
     </div>
     <div>
-        Rating : {% for rating in movie.rating %}
-        {{ movie.rating }} <br>
+        Rating :
+        {% set totalRating = 0 %}
+        {% set count = movie.rating|length  %}
+        {% for rating in movie.rating %}
+            {% set totalRating = totalRating + rating.score %}
         {% endfor %}
+        {{ totalRating/count }}
         <a href="{{ path('new_rating_form', {'movieId' : movie.id, 'userId' : app.user.id}) }}">Rate this movie!</a><br>
     </div>
     <div>

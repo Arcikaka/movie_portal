@@ -42,7 +42,7 @@ class User extends BaseUser
         $this->comments = new ArrayCollection();
     }
 
-    public function addMovieRating(Rating $movieRating)
+    protected function addMovieRating(Rating $movieRating)
     {
         if (!$this->movieRating->contains($movieRating)) {
             $this->movieRating->add($movieRating);

@@ -97,23 +97,20 @@ class Rating
         $this->score = $score;
     }
 
-    public function addUser(User $user)
-    {
-        if (!$this->user->contains($user)) {
-            $this->user->add($user);
-        }
-    }
-
-    public function getUser(): Collection
+    /**
+     * @return User
+     */
+    public function getUser(): User
     {
         return $this->user;
     }
 
-    public function removeUser(User $user)
+    /**
+     * @param User $user
+     */
+    public function setUser(User $user): void
     {
-        if ($this->user->contains($user)) {
-            $this->user->remove($user);
-        }
+        $this->user = $user;
     }
 
 
