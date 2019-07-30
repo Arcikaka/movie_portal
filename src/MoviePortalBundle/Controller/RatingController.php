@@ -4,6 +4,7 @@ namespace MoviePortalBundle\Controller;
 
 use MoviePortalBundle\Entity\Movie;
 use MoviePortalBundle\Entity\Rating;
+use MoviePortalBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,10 +27,11 @@ class RatingController extends Controller
     public function newRatingFormAction($movieId, $userId)
     {
         $rating = new Rating();
-        $form = $this->createForm('MoviePortalBundle\Form\RatingFormType', $rating);
+        //$form = $this->createForm('MoviePortalBundle\Form\RatingFormType', $rating);
 
-        return $this->render('@MoviePortal/Rating/ratingForm.html.twig', ['form' => $form->createView()]);
+        //return $this->render('@MoviePortal/Rating/ratingForm.html.twig', ['form' => $form->createView()]);
 
+        return $this->render('@MoviePortal/Rating/ratingFormInHtml.html.twig', ['movieId' => $movieId, 'userId' => $userId]);
     }
 
     /**
@@ -42,25 +44,35 @@ class RatingController extends Controller
     public function newRatingAction(Request $request, $movieId, $userId)
     {
         $rating = new Rating();
-        $form = $this->createForm('MoviePortalBundle\Form\RatingFormType', $rating);
 
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $rating->addUser($request->get('user'));
-            $rating->addMovies($request->get('movies'));
-            /** @var Movie $movie */
-            foreach ($rating->getMovies() as $movie) {
-                $movie->addRating($rating);
-            }
+        $em = $this->getDoctrine()->getManager();
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($rating);
-            $em->flush();
+        $rating->setScore($request->get('score'));
 
-            return $this->redirectToRoute('movie_by_id', ['id' => $request->get('movies')]);
+        $repoUser = $em->getRepository('MoviePortalBundle:User');
+        /** @var User $user */
+        $user = $repoUser->find($userId);
+        $rating->addUser($user);
+
+        $repoMovie = $em->getRepository('MoviePortalBundle:Movie');
+        /** @var Movie $movieToRate */
+        $movieToRate = $repoMovie->find($movieId);
+        $rating->addMovies($movieToRate);
+        /** @var Movie $movie */
+        foreach ($rating->getMovies() as $movie) {
+            $movie->addRating($rating);
+        }
+        /** @var User $user */
+        foreach ($rating->getUser() as $user) {
+            $user->addMovieRating($rating);
         }
 
-        return $this->redirectToRoute('new_rating_form' . ['movieId' => $movieId, 'userId' => $userId]);
+
+        $em->persist($rating);
+        $em->flush();
+
+        return $this->redirectToRoute('movie_by_id', ['id' => $movieId]);
+
     }
 
 

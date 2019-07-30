@@ -3,4 +3,11 @@
     {{ post.name }}<br>
     {{ post.contentHtml }}<br>
     {{ post.category.name }}<br>
+    <a href="{{ path('new_form_comment', {'postId' : post.id, 'userId' : app.user.id}) }}">Click here to add new Comment</a>
+    {% for comment in post.comments %}
+        <h3>{{ comment.user.username }}</h3><br>
+        {{ comment.content }}<br>
+        {{ comment.createdAt|date('Y-m-d') }}<br>
+        <hr>
+    {% endfor %}
 {% endblock %}

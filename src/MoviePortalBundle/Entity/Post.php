@@ -2,6 +2,8 @@
 
 namespace MoviePortalBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -42,6 +44,16 @@ class Post
      */
     private $category;
 
+    /**
+     * @var Comments
+     * @ORM\OneToMany(targetEntity="MoviePortalBundle\Entity\Comments", mappedBy="post")
+     */
+    private $comment;
+
+    public function __construct()
+    {
+        $this->comment = new ArrayCollection();
+    }
 
     /**
      * Get id.
@@ -123,5 +135,25 @@ class Post
     public function getCategory()
     {
         return $this->category;
+    }
+
+    public function addComment(Comments $comment)
+    {
+        if(!$this->comment->contains($comment)){
+            $this->comment->add($comment);
+        }
+    }
+
+    public function removeComment(Comments $comment)
+    {
+        if($this->comment->contains($comment))
+        {
+            $this->comment->remove($comment);
+        }
+    }
+
+    public function getComments() : Collection
+    {
+        return $this->comment;
     }
 }
