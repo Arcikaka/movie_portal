@@ -19,55 +19,65 @@ use Symfony\Component\Routing\Annotation\Route;
 class RatingController extends Controller
 {
     /**
-     * @Route("/{movieId}/{userId}/", name="new_rating_form", methods={"GET"})
+     * @Route("/{movieId}/", name="new_rating_form", methods={"GET"})
      * @param $movieId
-     * @param $userId
      * @return Response
      */
-    public function newRatingFormAction($movieId, $userId)
+    public function newRatingFormAction($movieId)
     {
         $rating = new Rating();
-        //$form = $this->createForm('MoviePortalBundle\Form\RatingFormType', $rating);
+        $form = $this->createForm('MoviePortalBundle\Form\RatingFormType', $rating);
 
-        //return $this->render('@MoviePortal/Rating/ratingForm.html.twig', ['form' => $form->createView()]);
+        //return $this->render('@MoviePortal/Rating/ratingForm.html.twig', ['form' => $form->createView(), 'movieId' => $movieId]);
 
-        return $this->render('@MoviePortal/Rating/ratingFormInHtml.html.twig', ['movieId' => $movieId, 'userId' => $userId]);
+        return $this->render('@MoviePortal/Rating/ratingFormInHtml.html.twig', ['movieId' => $movieId]);
     }
 
     /**
      * @param Request $request
      * @param $movieId
-     * @param $userId
      * @return RedirectResponse
-     * @Route("/{movieId}/{userId}/", name="new_rating_save", methods={"POST"})
+     * @Route("/{movieId}/", name="new_rating_save", methods={"POST"})
      */
-    public function newRatingAction(Request $request, $movieId, $userId)
+    public function newRatingAction(Request $request, $movieId)
     {
         $rating = new Rating();
+        //$form = $this->createForm('MoviePortalBundle\Form\RatingFormType', $rating);
 
-        $em = $this->getDoctrine()->getManager();
+        //$form->handleRequest($request);
 
-        $rating->setScore($request->get('score'));
+        //if($form->isValid() && $form->isSubmitted()){
 
-        $repoUser = $em->getRepository('MoviePortalBundle:User');
-        /** @var User $user */
-        $user = $repoUser->find($userId);
-        $rating->setUser($user);
+            $em = $this->getDoctrine()->getManager();
 
-        $repoMovie = $em->getRepository('MoviePortalBundle:Movie');
-        /** @var Movie $movieToRate */
-        $movieToRate = $repoMovie->find($movieId);
-        $rating->addMovies($movieToRate);
-        /** @var Movie $movie */
-        foreach ($rating->getMovies() as $movie) {
-            $movie->addRating($rating);
-        }
+            $rating->setScore($request->get('score'));
+
+            $userRepo = $em->getRepository('MoviePortalBundle:User');
+            $userRated = $userRepo->find($this->container->get('security.token_storage')->getToken()->getUser()->getId());
+            //$rating->setUser($this->container->get('security.token_storage')->getToken()->getUser());
+
+            $rating->setUser($userRated);
+
+            $repoMovie = $em->getRepository('MoviePortalBundle:Movie');
+            /** @var Movie $movieToRate */
+            $movieToRate = $repoMovie->find($movieId);
+            $rating->addMovies($movieToRate);
 
 
-        $em->persist($rating);
-        $em->flush();
+            /** @var Movie $movie */
+            foreach ($rating->getMovies() as $movie) {
+                $movie->addRating($rating);
+            }
 
-        return $this->redirectToRoute('movie_by_id', ['id' => $movieId]);
+
+            $em->persist($rating);
+            $em->flush();
+
+            return $this->redirectToRoute('movie_by_id', ['id' => $movieId]);
+        //}
+
+        //return $this->redirectToRoute('new_rating_form', ['movieId' => $movieId]);
+
 
     }
 

@@ -1,6 +1,6 @@
 {% extends '@MoviePortal/base.html.twig' %}
 {% block content %}
-    <form method="post" action="{{ path('new_rating_save', {'movieId' : movieId, 'userId' : userId}) }}">
+    <form method="post" action="{{ path('new_rating_save', {'movieId' : movieId}) }}">
         <input type="radio" name="score" value="1">1
         <input type="radio" name="score" value="2">2
         <input type="radio" name="score" value="3">3

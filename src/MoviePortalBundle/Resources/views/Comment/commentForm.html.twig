@@ -1,7 +1,7 @@
 {% extends '@MoviePortal/base.html.twig' %}
 
 {% block content %}
-<form method="post" action="{{ path('save_new_comment', {'postId' : postId, 'userId' : userId}) }}">
+<form method="post" action="{{ path('save_new_comment', {'postId' : postId}) }}">
     <input type="text" name="content" placeholder="Your comment" width="500" height="200">
     <input type="submit" value="send">
 </form>

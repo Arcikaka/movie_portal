@@ -13,8 +13,10 @@
         {% for rating in movie.rating %}
             {% set totalRating = totalRating + rating.score %}
         {% endfor %}
+        {% if count > 0 %}
         {{ totalRating/count }}
-        <a href="{{ path('new_rating_form', {'movieId' : movie.id, 'userId' : app.user.id}) }}">Rate this movie!</a><br>
+        {% endif %}
+        <a href="{{ path('new_rating_form', {'movieId' : movie.id}) }}">Rate this movie!</a><br>
     </div>
     <div>
         Release date : {{ movie.releaseDate|date("m/d/Y") }}
