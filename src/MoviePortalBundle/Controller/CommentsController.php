@@ -43,7 +43,6 @@ class CommentsController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $user = $em->getRepository('MoviePortalBundle:User')->find($this->container->get('security.token_storage')->getToken()->getUser()->getId());
         $post = $em->getRepository('MoviePortalBundle:Post')->find($postId);
 
         $comment->setPost($post);
@@ -53,5 +52,44 @@ class CommentsController extends Controller
         $em->flush();
 
         return $this->redirectToRoute('post_by_id', ['id' => $postId]);
+    }
+
+    /**
+     * @param $commentId
+     * @Route("/modify/{commentId}/", methods={"GET"}, name="modify_comment_form")
+     * @return Response
+     */
+    public function modifyCommentAction($commentId)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repo = $em->getRepository('MoviePortalBundle:Comments');
+        $comment = $repo->find($commentId);
+
+        return $this->render('@MoviePortal/Comment/commentModifyForm.html.twig', ['comment' => $comment]);
+    }
+
+    /**
+     * @param Request $request
+     * @param $commentId
+     * @return RedirectResponse
+     * @throws \Exception
+     * @Route("/modify/{commentId}/", methods={"POST"}, name="modify_comment_save")
+     */
+    public function modifyCommentSaveAction(Request $request, $commentId)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repo = $em->getRepository('MoviePortalBundle:Comments');
+        $comment = $repo->find($commentId);
+
+        if($comment->getUser() === $this->container->get('security.token_storage')->getToken()->getUser()){
+            $comment->setContent($request->get('content'));
+            $comment->setCreatedAt(new \DateTime());
+
+            $em->flush();
+
+            return $this->redirectToRoute('post_by_id', ['id' => $comment->getPost()->getId()]);
+        }
+
+        return $this->redirectToRoute('modify_comment_form', ['commentId' => $commentId]);
     }
 }

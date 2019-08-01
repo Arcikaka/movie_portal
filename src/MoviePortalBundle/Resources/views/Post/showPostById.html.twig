@@ -9,7 +9,7 @@
         {{ comment.content }}<br>
         {{ comment.createdAt|date('Y-m-d') }}<br>
         {% if comment.user == app.user %}
-        <a href="">Modify Comment</a>
+        <a href="{{ path('modify_comment_form', {'commentId' : comment.id}) }}">Modify Comment</a>
         {% endif %}
         <hr>
     {% endfor %}

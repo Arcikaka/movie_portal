@@ -10,4 +10,5 @@ namespace MoviePortalBundle\Repository;
  */
 class CommentsRepository extends \Doctrine\ORM\EntityRepository
 {
+
 }
