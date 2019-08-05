@@ -5,4 +5,17 @@
         <div align="center">{{ post.contentHtml }}</div>
         <div align="center"><i> {{ post.category.name }}</i></div></br>
     {% endfor %}
+    {% set countPost = posts|length %}
+    {% if countPost == 8 %}
+        {% set offsetMoreThanZero = offset - 1 %}
+        {% if offsetMoreThanZero > 0 %}
+            <a href="{{ path('show_all_posts_offset', {'offset' : (offset - 1)}) }}">Previous page</a>
+        {% elseif offsetMoreThanZero == 0 %}
+            <a href="{{ path('show_all_posts_offset', {'offset' : (offset - 1)}) }}">Previous page</a>
+        {% endif %}
+        <a href="{{ path('show_all_posts_offset', {'offset' : (offset + 1)}) }}">Next page</a>
+    {% else %}
+        <a href="{{ path('show_all_posts_offset', {'offset' : (offset - 1)}) }}">Previous page</a>
+    {% endif %}
+
 {% endblock %}

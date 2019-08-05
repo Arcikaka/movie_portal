@@ -1,9 +1,9 @@
 {% extends '@MoviePortal/baseAdmin.html.twig' %}
 {% block content %}
     <div>
-        <ol class="list">
+        <ol>
             {% for post in posts %}
-                <li><a href="{{ path('modify_post', {'id': post.id }) }}">{{ post.name }}</a></li></br>
+                <div><a href="{{ path('modify_post', {'id': post.id }) }}">{{ post.name }}</a></div><br>
             {% endfor %}
         </ol>
     </div>

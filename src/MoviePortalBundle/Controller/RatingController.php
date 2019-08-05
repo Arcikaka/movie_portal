@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class RatingController extends Controller
 {
     /**
-     * @Route("/new/{movieId}/", name="new_rating_form", methods={"GET"}, requirements={"\d"})
+     * @Route("/new/{movieId}/", name="new_rating_form", methods={"GET"})
      * @param $movieId
      * @return Response
      */

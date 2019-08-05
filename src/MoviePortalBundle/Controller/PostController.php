@@ -42,17 +42,17 @@ class PostController extends Controller
     }
 
     /**
-     * @Route("/{offset}/", name="show_all_posts_offset", methods={"GET"}, requirements={"offset" = "\d+"})
+     * @Route("/{offset}/", name="show_all_posts_offset", methods={"GET"})
      * @param $offset
      * @return Response
      */
     public function showAllPostAction($offset)
     {
-        //$offset = ($offset) * 8;
+        $offsetPost = ($offset) * 8;
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository('MoviePortalBundle:Post');
-        $posts = $repo->showAllPostLimitOffset(8, $offset);
+        $posts = $repo->showAllPostLimitOffset(8, $offsetPost);
 
-        return $this->render('@MoviePortal/Post/showAllPosts.html.twig', ['posts' => $posts]);
+        return $this->render('@MoviePortal/Post/showAllPosts.html.twig', ['posts' => $posts, 'offset' => $offset]);
     }
 }

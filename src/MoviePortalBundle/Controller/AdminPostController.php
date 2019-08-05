@@ -44,7 +44,7 @@ class AdminPostController extends Controller
             $em->persist($post);
             $em->flush();
 
-            return $this->redirectToRoute('', ['post' => $post]);
+            return $this->redirectToRoute('show_posts_admin', ['post' => $post]);
         }
         return $this->redirectToRoute('create_post_form', ['form' => $form->createView()]);
     }
