@@ -33,11 +33,12 @@ class PostController extends Controller
      */
     public function showAllPostMainAction()
     {
+        $offset = 0;
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository('MoviePortalBundle:Post');
-        $posts = $repo->showAllPostLimitOffset(8, 0);
+        $posts = $repo->showAllPostLimitOffset(8, $offset);
 
-        return $this->render('@MoviePortal/Post/showAllPosts.html.twig', ['posts' => $posts]);
+        return $this->render('@MoviePortal/Post/showAllPosts.html.twig', ['posts' => $posts, 'offset' => $offset]);
 
     }
 
