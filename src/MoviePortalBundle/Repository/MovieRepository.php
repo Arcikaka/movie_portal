@@ -14,9 +14,20 @@ class MovieRepository extends EntityRepository
 {
     public function searchMovieDatabase($string)
     {
-        $query = $this->getEntityManager()->createQuery("SELECT m FROM MoviePortalBundle:Movie m WHERE m.title LIKE :string 
-        OR m.director LIKE :string OR m.writers LIKE :string OR m.actor LIKE :string OR m.genre LIKE :string");
-        $query->setParameter('string',$string);
-        return $query->getResult();
+        $em = $this->getEntityManager();
+        $repository = $em->getRepository('MoviePortalBundle:Movie');
+        $query = $repository->createQueryBuilder('m')
+            ->innerJoin('m.actors', 'a')
+            ->innerJoin('m.director', 'd')
+            ->innerJoin('m.genre', 'g')
+            ->innerJoin('m.writers', 'w')
+            ->where('m.title LIKE :string')
+            ->orWhere('a.surname LIKE :string')
+            ->orWhere('d.surname LIKE :string')
+            ->orWhere('g.name LIKE :string')
+            ->orWhere('w.surname LIKE :string')
+            ->setParameter('string', '%'.$string.'%');
+
+        return $query->getQuery()->getResult();
     }
 }
