@@ -28,7 +28,7 @@ class User extends BaseUser
      * @var Rating
      * @ORM\OneToMany(targetEntity="MoviePortalBundle\Entity\Rating", mappedBy="user")
      */
-    public $movieRating;
+    public $ratings;
     /**
      * @var Comments
      * @ORM\OneToMany(targetEntity="MoviePortalBundle\Entity\Comments", mappedBy="user")
@@ -38,27 +38,27 @@ class User extends BaseUser
     public function __construct()
     {
         parent::__construct();
-        $this->movieRating = new ArrayCollection();
+        $this->ratings = new ArrayCollection();
         $this->comments = new ArrayCollection();
     }
 
-    protected function addMovieRating(Rating $movieRating)
+    public function addRating(Rating $rating)
     {
-        if (!$this->movieRating->contains($movieRating)) {
-            $this->movieRating->add($movieRating);
+        if (!$this->ratings->contains($rating)) {
+            $this->ratings->add($rating);
         }
     }
 
-    public function removeMovieRating(Rating $movieRating)
+    public function removeRating(Rating $rating)
     {
-        if ($this->movieRating->contains($movieRating)) {
-            $this->movieRating->remove($movieRating);
+        if ($this->ratings->contains($rating)) {
+            $this->ratings->remove($rating);
         }
     }
 
-    public function getMovieRating(): Collection
+    public function getRating(): Collection
     {
-        return $this->movieRating;
+        return $this->ratings;
     }
 
     public function addComment(Comments $comment)

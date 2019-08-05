@@ -13,9 +13,18 @@ use Doctrine\ORM\EntityRepository;
 class RatingRepository extends EntityRepository
 {
 
-    public function getRatingByMovie($movie){
-        $query = $this->getEntityManager()->createQuery("SELECT avg(r.score) FROM MoviePortalBundle:Rating r WHERE r.movies LIKE :movie");
-        $query->setParameter('string',$movie);
+    public function getRatingByMovieAndUser($movie, $user)
+    {
+        $query = $this->getEntityManager()->createQuery("SELECT r FROM MoviePortalBundle:Rating r WHERE r.movies = :movie AND r.user = :user");
+        $query->setParameter('movie', $movie);
+        $query->setParameter('user', $user);
+        return $query->getResult();
+    }
+
+    public function showAllRatingsByUser($user)
+    {
+        $query = $this->getEntityManager()->createQuery("SELECT r FROM MoviePortalBundle:Rating r WHERE r.user = :user");
+        $query->setParameter('user', $user);
         return $query->getResult();
     }
 }

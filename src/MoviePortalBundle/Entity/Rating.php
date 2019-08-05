@@ -2,8 +2,7 @@
 
 namespace MoviePortalBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -13,7 +12,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="rating")
  * @ORM\Entity(repositoryClass="MoviePortalBundle\Repository\RatingRepository")
- * @UniqueEntity(fields={"user","movies","score"})
+ * @UniqueEntity(fields={"user"})
+ * @UniqueEntity(fields={"movies"})
+ * @UniqueEntity(fields={"score"})
  */
 class Rating
 {
@@ -28,13 +29,14 @@ class Rating
 
     /**
      * @var User
-     * @ORM\ManyToOne(targetEntity="MoviePortalBundle\Entity\User", inversedBy="movieRating")
+     * @ORM\ManyToOne(targetEntity="MoviePortalBundle\Entity\User", inversedBy="ratings")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
     /**
      * @var Movie
-     * @ORM\ManyToMany(targetEntity="MoviePortalBundle\Entity\Movie", inversedBy="rating")
+     * @ORM\ManyToOne(targetEntity="MoviePortalBundle\Entity\Movie", inversedBy="rating")
+     * @ORM\JoinColumn(name="movie_id", referencedColumnName="id")
      */
     private $movies;
     /**
@@ -44,11 +46,6 @@ class Rating
      */
     private $score;
 
-    public function __construct()
-    {
-        $this->movies = new ArrayCollection();
-        $this->user = new ArrayCollection();
-    }
 
 
     /**
@@ -59,26 +56,6 @@ class Rating
     public function getId()
     {
         return $this->id;
-    }
-
-
-    public function addMovies(Movie $movie)
-    {
-        if (!$this->movies->contains($movie)) {
-            $this->movies->add($movie);
-        }
-    }
-
-    public function removeMovies(Movie $movie)
-    {
-        if ($this->movies->contains($movie)) {
-            $this->movies->removeElement($movie);
-        }
-    }
-
-    public function getMovies(): Collection
-    {
-        return $this->movies;
     }
 
     /**
@@ -111,6 +88,22 @@ class Rating
     public function setUser(User $user): void
     {
         $this->user = $user;
+    }
+
+    /**
+     * @return Movie
+     */
+    public function getMovies(): ?Movie
+    {
+        return $this->movies;
+    }
+
+    /**
+     * @param Movie $movies
+     */
+    public function setMovies(Movie $movies): void
+    {
+        $this->movies = $movies;
     }
 
 

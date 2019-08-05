@@ -66,7 +66,7 @@ class Movie
 
     /**
      * @var Rating
-     * @ORM\ManyToMany(targetEntity="MoviePortalBundle\Entity\Rating", mappedBy="movies")
+     * @ORM\OneToMany(targetEntity="MoviePortalBundle\Entity\Rating", mappedBy="movies")
      *
      */
     private $rating;

@@ -19,17 +19,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class RatingController extends Controller
 {
     /**
-     * @Route("/{movieId}/", name="new_rating_form", methods={"GET"})
+     * @Route("/new/{movieId}/", name="new_rating_form", methods={"GET"}, requirements={"\d"})
      * @param $movieId
      * @return Response
      */
     public function newRatingFormAction($movieId)
     {
-        $rating = new Rating();
-        $form = $this->createForm('MoviePortalBundle\Form\RatingFormType', $rating);
-
-        //return $this->render('@MoviePortal/Rating/ratingForm.html.twig', ['form' => $form->createView(), 'movieId' => $movieId]);
-
         return $this->render('@MoviePortal/Rating/ratingFormInHtml.html.twig', ['movieId' => $movieId]);
     }
 
@@ -37,53 +32,61 @@ class RatingController extends Controller
      * @param Request $request
      * @param $movieId
      * @return RedirectResponse
-     * @Route("/{movieId}/", name="new_rating_save", methods={"POST"})
+     * @Route("/new/{movieId}/", name="new_rating_save", methods={"POST"})
      */
     public function newRatingAction(Request $request, $movieId)
     {
-        $rating = new Rating();
-        //$form = $this->createForm('MoviePortalBundle\Form\RatingFormType', $rating);
+        $em = $this->getDoctrine()->getManager();
 
-        //$form->handleRequest($request);
-
-        //if($form->isValid() && $form->isSubmitted()){
-
-            $em = $this->getDoctrine()->getManager();
-
+        $ratingRepo = $em->getRepository('MoviePortalBundle:Rating');
+        //checking, if in database is any record with specific data, if yes then controller updates rating
+        $ratings = $ratingRepo->getRatingByMovieAndUser($movieId, $this->container->get('security.token_storage')
+            ->getToken()->getUser()->getId());
+        if ($ratings) {
+            $rating = $ratings[0];
             $rating->setScore($request->get('score'));
-
-            $userRepo = $em->getRepository('MoviePortalBundle:User');
-            $userRated = $userRepo->find($this->container->get('security.token_storage')->getToken()->getUser()->getId());
-            //$rating->setUser($this->container->get('security.token_storage')->getToken()->getUser());
-
-            $rating->setUser($userRated);
-
-            $repoMovie = $em->getRepository('MoviePortalBundle:Movie');
-            /** @var Movie $movieToRate */
-            $movieToRate = $repoMovie->find($movieId);
-            $rating->addMovies($movieToRate);
-
-
-            /** @var Movie $movie */
-            foreach ($rating->getMovies() as $movie) {
-                $movie->addRating($rating);
-            }
-
-
-            $em->persist($rating);
             $em->flush();
 
             return $this->redirectToRoute('movie_by_id', ['id' => $movieId]);
-        //}
+        }
 
-        //return $this->redirectToRoute('new_rating_form', ['movieId' => $movieId]);
+        $rating = new Rating();
+
+        $em = $this->getDoctrine()->getManager();
+
+        $rating->setScore($request->get('score'));
+        $userRepo = $em->getRepository('MoviePortalBundle:User');
+        $userRated = $userRepo->find($this->container->get('security.token_storage')->getToken()->getUser()->getId());
+
+        $rating->setUser($userRated);
+
+        $repoMovie = $em->getRepository('MoviePortalBundle:Movie');
+        /** @var Movie $movieToRate */
+        $movieToRate = $repoMovie->find($movieId);
+        $rating->setMovies($movieToRate);
+
+        /** @var User $userRated */
+        $userRated->addRating($rating);
+        $movieToRate->addRating($rating);
 
 
+        $em->persist($rating);
+        $em->flush();
+
+        return $this->redirectToRoute('movie_by_id', ['id' => $movieId]);
     }
 
-
-    public function modifyRatingAction()
+    /**
+     * @return Response
+     * @Route("/showAll/", name="show_all_ratings_by_user", methods={"GET"})
+     */
+    public function showAllRatingsByUserAction()
     {
-        //TODO
+        $em = $this->getDoctrine()->getManager();
+        $repo = $em->getRepository('MoviePortalBundle:Rating');
+
+        $ratings = $repo->showAllRatingsByUser($this->container->get('security.token_storage')->getToken()->getUser()->getId());
+
+        return $this->render('@MoviePortal/Rating/showAllRatingsByUser.html.twig', ['ratings' => $ratings]);
     }
 }

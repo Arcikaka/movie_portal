@@ -1,0 +1,6 @@
+{% extends '@MoviePortal/base.html.twig' %}
+{% block content %}
+    {% for rating in ratings %}
+        <a href="{{ path('new_rating_form', {'movieId' : rating.movies.id}) }}">{{ rating.movies.title }} : {{ rating.score }}</a><br>
+    {% endfor %}
+{% endblock %}
