@@ -14,7 +14,7 @@
     </div>
     <div>
         {% for movies in actor.movies %}
-            <a href="{{ path('movie_by_id', {'id' : movie.id}) }}">{{ movie.title }}</a>
+            <a href="{{ path('movie_by_id', {'id' : movies.id}) }}">{{ movies.title }}</a>
         {% endfor %}
     </div>
 {% endblock %}
