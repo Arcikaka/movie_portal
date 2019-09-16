@@ -42,7 +42,7 @@ class PostController extends Controller
     }
 
     /**
-     * @Route("/{offset}/", name="show_all_posts_offset", methods={"GET"}, requirements={"offset"="\d+"})
+     * @Route("/{offset}/", name="show_all_posts_offset", methods={"GET"}, requirements={"offset"="^-?[0-9]\d*(\.\d+)?$"})
      * @param $offset integer
      * @return Response
      */
